@@ -106,7 +106,7 @@ jobs:
       run: echo "RELEASE_VERSION=${GITHUB_REF#refs/*/}" >> $GITHUB_ENV
     - name: Build
       run: |
-        git clone https://github.com/cnlh/spksrc.git ~/spksrc
+        git clone https://github.com/SynoCommunity/spksrc.git ~/spksrc
         mkdir ~/spksrc/nps && cp -rf ./* ~/spksrc/nps/
         docker run -id --name spksrc --env VERSION=${{ env.RELEASE_VERSION }} -e GOPROXY=direct -v ~/spksrc:/spksrc synocommunity/spksrc /bin/bash
         docker exec spksrc /bin/bash -c 'cd /spksrc && sed -i s/1.15.6/1.19.5/g native/go/Makefile && echo "go1.19.5.src.tar.gz SHA256 8e486e8e85a281fc5ce3f0bedc5b9d2dbf6276d7db0b25d3ec034f313da0375f" > native/go/digests && make setup && cd /spksrc/spk/npc && make'
